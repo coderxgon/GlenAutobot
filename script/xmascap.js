@@ -1,42 +1,66 @@
 const axios = require('axios');
-const fs = require('fs-extra');
 
 module.exports.config = {
-  name: "xmascap",
+  name: "zip",
   version: "1.0.0",
   role: 0,
+  aliases: ["zip"],
+  hasPrefix: false,
+  description: "Get location details from a ZIP code",
+  usage: "zipcode [country] [zipcode]",
   credits: "Vern",
-  aliases: [],
-  usages: "< reply to an image > [red | blue]",
-  cooldown: 2,
+  cooldown: 3
 };
 
-module.exports.run = async ({ api, event, args }) => {
-  const pathie = __dirname + `/cache/xmascap-image.jpg`;
-  const { threadID, messageID, messageReply } = event;
+module.exports.run = async function ({ api, event, args }) {
+  const { threadID, messageID } = event;
 
-  if (!messageReply || !messageReply.attachments?.[0]?.url) {
-    return api.sendMessage("❌ Please reply to an image to add a Christmas cap. Use `red` or `blue` as optional color.", threadID, messageID);
+  // Validate input
+  const country = args[0]?.toLowerCase();
+  const zipcode = args[1];
+
+  if (!country || !zipcode) {
+    return api.sendMessage(
+      "❌ Usage: `zipcode [country code] [zipcode]`\nExample: `zipcode ph 4115`",
+      threadID,
+      messageID
+    );
   }
 
-  const imageUrl = messageReply.attachments[0].url;
-  const color = args[0]?.toLowerCase() === "blue" ? "blue" : "red"; // Only accept 'blue' or default to 'red'
+  const apiUrl = `https://kaiz-apis.gleeze.com/api/zipcodeinfo?country=${encodeURIComponent(country)}&zipcode=${encodeURIComponent(zipcode)}&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5`;
 
   try {
-    api.sendMessage("🎅 Adding Christmas cap, please wait...", threadID, messageID);
+    // Fetch location data
+    const res = await axios.get(apiUrl);
+    const data = res.data;
 
-    const xmasCapUrl = `https://kaiz-apis.gleeze.com/api/xmas-cap?imageUrl=${encodeURIComponent(imageUrl)}&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5&color=${color}`;
-    const response = await axios.get(xmasCapUrl, { responseType: "arraybuffer" });
+    // Handle errors in API response
+    if (!data || data.status !== "success") {
+      return api.sendMessage("❌ ZIP code not found or invalid input.", threadID, messageID);
+    }
 
-    fs.writeFileSync(pathie, Buffer.from(response.data));
+    const {
+      zipcode,
+      country,
+      country_code,
+      state,
+      city,
+      region,
+      area
+    } = data;
 
-    api.sendMessage({
-      body: `🎄 Christmas cap added successfully! Color: ${color}`,
-      attachment: fs.createReadStream(pathie)
-    }, threadID, () => fs.unlinkSync(pathie), messageID);
+    const result = `📮 Zip Code Info:
+🔹 Country: ${country} (${country_code})
+🔹 State: ${state || "N/A"}
+🔹 City: ${city || "N/A"}
+🔹 Region: ${region || "N/A"}
+🔹 Area: ${area || "N/A"}
+🔹 Zip Code: ${zipcode}`;
 
-  } catch (error) {
-    console.error("❌ XmasCap API Error:", error?.response?.data || error.message);
-    api.sendMessage(`❌ Failed to add Christmas cap. Try again later.`, threadID, messageID);
+    api.sendMessage(result, threadID, messageID);
+
+  } catch (err) {
+    console.error("Zipcode API error:", err?.response?.data || err.message);
+    api.sendMessage("❌ Failed to fetch ZIP code info. Please try again.", threadID, messageID);
   }
 };
