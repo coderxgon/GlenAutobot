@@ -7,40 +7,36 @@ module.exports.config = {
   role: 0,
   credits: "Vern",
   aliases: [],
-  usages: "< reply to an image > [color]",
+  usages: "< reply to an image > [red | blue]",
   cooldown: 2,
 };
 
 module.exports.run = async ({ api, event, args }) => {
-  let pathie = __dirname + `/cache/xmascap-image.jpg`;
-  const { threadID, messageID } = event;
+  const pathie = __dirname + `/cache/xmascap-image.jpg`;
+  const { threadID, messageID, messageReply } = event;
 
-  // Get the image URL from the reply
-  const imageUrl = event.messageReply?.attachments[0]?.url;
-  const color = args[0] || "red"; // Default color is red if not provided
-
-  if (!imageUrl) {
-    return api.sendMessage("❌ Please reply to an image to xmascap choose cap red or blue.", threadID, messageID);
+  if (!messageReply || !messageReply.attachments?.[0]?.url) {
+    return api.sendMessage("❌ Please reply to an image to add a Christmas cap. Use `red` or `blue` as optional color.", threadID, messageID);
   }
+
+  const imageUrl = messageReply.attachments[0].url;
+  const color = args[0]?.toLowerCase() === "blue" ? "blue" : "red"; // Only accept 'blue' or default to 'red'
 
   try {
     api.sendMessage("🎅 Adding Christmas cap, please wait...", threadID, messageID);
 
-    // Call the Christmas cap API
-    const xmasCapUrl = `https://kaiz-apis.gleeze.com/api/xmas-cap?imageUrl=${encodeURIComponent(imageUrl)}$apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5`;
+    const xmasCapUrl = `https://kaiz-apis.gleeze.com/api/xmas-cap?imageUrl=${encodeURIComponent(imageUrl)}&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5&color=${color}`;
+    const response = await axios.get(xmasCapUrl, { responseType: "arraybuffer" });
 
-    // Fetch the processed image
-    const img = (await axios.get(xmasCapUrl, { responseType: "arraybuffer" })).data;
+    fs.writeFileSync(pathie, Buffer.from(response.data));
 
-    // Save the image to the file system
-    fs.writeFileSync(pathie, Buffer.from(img, 'utf-8'));
-
-    // Send the image with the Xmas cap back to the user
     api.sendMessage({
-      body: `🎄| Christmas cap added successfully with color: ${color}`,
+      body: `🎄 Christmas cap added successfully! Color: ${color}`,
       attachment: fs.createReadStream(pathie)
     }, threadID, () => fs.unlinkSync(pathie), messageID);
+
   } catch (error) {
-    api.sendMessage(`❌ Error: ${error.message}`, threadID, messageID);
+    console.error("❌ XmasCap API Error:", error?.response?.data || error.message);
+    api.sendMessage(`❌ Failed to add Christmas cap. Try again later.`, threadID, messageID);
   }
 };
