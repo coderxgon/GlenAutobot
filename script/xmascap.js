@@ -2,7 +2,7 @@ const axios = require('axios');
 
 module.exports.config = {
   name: "zip",
-  version: "1.0.0",
+  version: "1.0.1",
   role: 0,
   aliases: [],
   hasPrefix: false,
@@ -15,11 +15,12 @@ module.exports.config = {
 module.exports.run = async function ({ api, event, args }) {
   const { threadID, messageID } = event;
 
-  // Validate input
+  // Input validation
   const country = args[0]?.toLowerCase();
   const zipcode = args[1];
 
   if (!country || !zipcode) {
+    console.log('[DEBUG] Missing args:', args);
     return api.sendMessage(
       "❌ Usage: zip [country code] [zipcode]\nExample: zip ph 4115",
       threadID,
@@ -28,19 +29,22 @@ module.exports.run = async function ({ api, event, args }) {
   }
 
   const apiUrl = `https://kaiz-apis.gleeze.com/api/zipcodeinfo?country=${encodeURIComponent(country)}&zipcode=${encodeURIComponent(zipcode)}&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5`;
+  console.log('[DEBUG] Requesting URL:', apiUrl);
 
   try {
     const res = await axios.get(apiUrl);
-    const apiData = res.data;
+    console.log('[DEBUG] API Response status:', res.status);
+    console.log('[DEBUG] API Response data:', res.data);
 
-    // Check if API response is valid
+    const apiData = res.data;
     if (!apiData || apiData.status !== "success" || !apiData.data) {
+      console.log('[DEBUG] Invalid API data:', apiData);
       return api.sendMessage("❌ ZIP code not found or invalid input.", threadID, messageID);
     }
 
     const {
-      zipcode,
-      country,
+      zipcode: zc,
+      country: cn,
       country_code,
       state,
       city,
@@ -49,17 +53,22 @@ module.exports.run = async function ({ api, event, args }) {
     } = apiData.data;
 
     const result = `📮 ZIP Code Info:
-🔹 Country: ${country} (${country_code})
+🔹 Country: ${cn} (${country_code})
 🔹 State: ${state || "N/A"}
 🔹 City: ${city || "N/A"}
 🔹 Region: ${region || "N/A"}
 🔹 Area: ${area || "N/A"}
-🔹 ZIP Code: ${zipcode}`;
+🔹 ZIP Code: ${zc}`;
 
-    api.sendMessage(result, threadID, messageID);
+    return api.sendMessage(result, threadID, messageID);
 
   } catch (err) {
-    console.error("Zipcode API Error:", err?.response?.data || err.message);
-    api.sendMessage("❌ Failed to fetch ZIP code info. Please try again later.", threadID, messageID);
+    console.error("[ERROR] Zipcode API Error:", err);
+    console.log('[DEBUG] err.response?.data:', err?.response?.data);
+    return api.sendMessage(
+      "❌ Failed to fetch ZIP code info. Check console for error.",
+      threadID,
+      messageID
+    );
   }
 };
