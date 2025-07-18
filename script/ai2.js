@@ -27,7 +27,7 @@ module.exports.run = async function ({ api, event, args }) {
   const systemRole = 'You are Tr1pZzey AI, a helpful and friendly assistant.';
   const prompt = `${systemRole}\n${input}`;
 
-  const apiUrl = `https://kaiz-apis.gleeze.com/api/gpt-4o-pro?ask=what+is+1%2B1&uid=4fe7e522-70b7-420b-a746-d7a23db49ee5&imageUrl=https%3A%2F%2Fi.ibb.co%2FdsBYR8Gb%2F518891713-4071070426475328-3833574861334449397-n-jpg-stp-dst-jpg-p480x480-tt6-nc-cat-105-ccb-1-7-nc.jpg&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5&q=${encodeURIComponent(prompt)}&uid=${senderId}`;
+  const apiUrl = `https://kaiz-apis.gleeze.com/api/gpt-4o-pro?ask=what+is+this&uid=4fe7e522-70b7-420b-a746-d7a23db49ee5&imageUrl=https%3A%2F%2Fi.ibb.co%2FdsBYR8Gb%2F518891713-4071070426475328-3833574861334449397-n-jpg-stp-dst-jpg-p480x480-tt6-nc-cat-105-ccb-1-7-nc.jpg&apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5&q=${encodeURIComponent(prompt)}&uid=${senderId}`;
 
   api.sendMessage(
     "🤖 Processing your request, please wait...",
