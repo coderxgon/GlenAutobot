@@ -1,6 +1,6 @@
 module.exports = {
   config: {
-    name: "tlink",
+    name: "link",
     version: "1.0",
     author: "Vern",
     countDown: 5,
