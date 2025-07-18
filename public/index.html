@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <title>Messenger-Automated-Bot</title>
   <meta charset="UTF-8" />
@@ -19,149 +18,135 @@
       width: 100%;
       font-family: 'Poppins', sans-serif;
       background: #000;
-      color: #f0f0f0;
+      color: #00f7ff;
       overflow-x: hidden;
-    }
+    }canvas#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-    canvas#matrix {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
+.navbar {
+  animation: slideDown 1s ease-out;
+  background: rgba(0, 0, 50, 0.6);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
 
-    .navbar {
-      animation: slideDown 1s ease-out;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-    }
+.navbar-brand {
+  font-size: 22px;
+  font-weight: 800;
+  text-shadow: 0 0 6px #00f7ff;
+  color: #00f7ff !important;
+}
 
-    .navbar-brand {
-      font-size: 22px;
-      font-weight: 800;
-      text-shadow: 0 0 6px #00ffe5;
-      color: #00fff2 !important;
-    }
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+@keyframes running-color {
+  0%, 100% { color: #00f7ff; }
+  50% { color: #0088ff; }
+}
 
-    @keyframes rainbow {
-      0% { background-color: #ff0000; }
-      16.67% { background-color: #ff7f00; }
-      33.33% { background-color: #ffff00; }
-      50% { background-color: #00ff00; }
-      66.67% { background-color: #0000ff; }
-      83.33% { background-color: #4b0082; }
-      100% { background-color: #9400d3; }
-    }
+#running-text {
+  animation: running-color 2s infinite;
+  font-weight: 700;
+  font-size: 23px;
+  letter-spacing: 1px;
+}
 
-    @keyframes running-color {
-      0% { color: #00ffd5; }
-      25% { color: #6effa0; }
-      50% { color: #a17fff; }
-      75% { color: #ffa0e1; }
-      100% { color: #00ffd5; }
-    }
+h1 {
+  color: #00f7ff;
+  text-shadow: 0 0 5px #00f7ff88;
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 30px;
+}
 
-    #running-text {
-      animation: running-color 2s infinite;
-      font-weight: 700;
-      font-size: 23px;
-      letter-spacing: 1px;
-    }
+p, label, input, textarea {
+  font-size: 15px;
+  font-weight: 400;
+  color: #cfefff;
+}
 
-    h1 {
-      color: #00ffcc;
-      text-shadow: 0 0 5px #00ffcc77;
-      font-size: 26px;
-      font-weight: 600;
-      margin-top: 30px;
-    }
+input, textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #00f7ff77;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
 
-    p, label, input, textarea {
-      font-size: 15px;
-      font-weight: 400;
-      color: #eaeaea;
-    }
+input:focus, textarea:focus {
+  border-color: #00f7ff;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
 
-    input, textarea {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #00ffc377;
-      border-radius: 8px;
-      padding: 12px;
-      color: #fff;
-      transition: all 0.3s ease;
-    }
+.btn-primary {
+  background: linear-gradient(135deg, #00f7ff, #0088ff);
+  border: none;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00f7ff;
+  transition: 0.3s ease-in-out;
+}
 
-    input:focus, textarea:focus {
-      border-color: #00ffc3;
-      background: rgba(255, 255, 255, 0.1);
-      outline: none;
-    }
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0088ff, #005eff);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px #00f7ff;
+}
 
-    .btn-primary {
-      background: linear-gradient(135deg, #00ffc3, #00c9ff);
-      border: none;
-      font-weight: 600;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00ffc3;
-      transition: 0.3s ease-in-out;
-    }
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(0, 255, 255, 0.2);
+  margin-bottom: 30px;
+}
 
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #00bfa6, #00a3e0);
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px #00ffc3;
-    }
+#json-data {
+  background-image: url('https://i.ibb.co/WNJztzmv/467113289-2389762191366546-2600310431575842476-n-gif-nc-cat-106-ccb-1-7-nc-sid-cf94fc-nc-eui2-Ae-E8m.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 200px;
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+}
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 30px rgba(0, 255, 195, 0.2);
-      margin-bottom: 30px;
-    }
+hr {
+  border: 0;
+  height: 2px;
+  background: linear-gradient(to right, #00f7ff, #004cff);
+  border-radius: 10px;
+  margin-top: 30px;
+}
 
-    #json-data {
-      background-image: url('https://i.ibb.co/WNJztzmv/467113289-2389762191366546-2600310431575842476-n-gif-nc-cat-106-ccb-1-7-nc-sid-cf94fc-nc-eui2-Ae-E8m.gif');
-      background-size: cover;
-      background-repeat: no-repeat;
-      min-height: 200px;
-      border-radius: 10px;
-      padding: 15px;
-      color: white;
-    }
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
+  font-size: 14px;
+}
 
-    hr {
-      border: 0;
-      height: 2px;
-      animation: rainbow 3s linear infinite;
-      border-radius: 10px;
-      margin-top: 30px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: #aaa;
-      font-size: 14px;
-    }
   </style>
 </head>
 <body>
-
-  <canvas id="matrix"></canvas>
-
-  <nav class="navbar navbar-expand-lg navbar-dark px-4 my-3">
+  <canvas id="matrix"></canvas>  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>  <nav class="navbar navbar-expand-lg navbar-dark px-4 my-3">
     <a class="navbar-brand" id="running-text" href="#">𝐌𝐞𝐬𝐬𝐞𝐧𝐠𝐞𝐫-𝐀𝐮𝐭𝐨𝐦𝐚𝐭𝐞𝐝-𝐁𝐨𝐭</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -180,89 +165,76 @@
         <li class="nav-item"><a class="nav-link" href="online_user">Active</a></li>
       </ul>
     </div>
-  </nav>
-
-  <div class="container">
+  </nav>  <div class="container">
     <div class="glass-card">
       <h1 class="text-center">APPSTATE</h1>
       <form id="json-form" onsubmit="submitForm(event)">
         <textarea id="json-data" class="form-control" placeholder="Paste your AppState here..."></textarea>
       </form>
       <p class="mt-3">Greetings! Begin by entering your cookie. Scroll down to review our Terms and Privacy Policy carefully.</p>
-    </div>
+    </div><div class="glass-card">
+  <h1 class="text-center">Terms and Conditions & Privacy Policy</h1>
+  <p>* Persistent Connection: Your chatbot stays active post-login unless you change the password.</p>
+  <p>* Cookie Security: Never share your cookie; it's vital for your account's security.</p>
+  <p>* Strong Passwords: Use unique, robust passwords. Avoid direct bot access.</p>
+  <p>* Troubleshooting: If unresponsive, return to the website or change the account.</p>
+  <p>* Dummy Accounts: Use disposable accounts for security.</p>
+  <p>* No Malicious Use: Activity will result in termination and legal action.</p>
+  <p>* Disclaimer: Not responsible for unauthorized access or account locking.</p>
+</div>
 
-    <div class="glass-card">
-      <h1 class="text-center">Terms and Conditions & Privacy Policy</h1>
-      <p>* Persistent Connection: Your chatbot stays active post-login unless you change the password.</p>
-      <p>* Cookie Security: Never share your cookie; it's vital for your account's security.</p>
-      <p>* Strong Passwords: Use unique, robust passwords. Avoid direct bot access.</p>
-      <p>* Troubleshooting: If unresponsive, return to the website or change the account.</p>
-      <p>* Dummy Accounts: Use disposable accounts for security.</p>
-      <p>* No Malicious Use: Activity will result in termination and legal action.</p>
-      <p>* Disclaimer: Not responsible for unauthorized access or account locking.</p>
-    </div>
+<div class="glass-card" id="listOfCommands">
+  <h1>Commands</h1>
+  <button class="btn btn-primary" onclick="selectAllCommands()">Select all commands</button>
+  <hr />
+</div>
 
-    <div class="glass-card" id="listOfCommands">
-      <h1>Commands</h1>
-      <button class="btn btn-primary" onclick="selectAllCommands()">Select all commands</button>
-      <hr />
-    </div>
+<div class="glass-card" id="listOfCommandsEvent">
+  <h1>Events</h1>
+  <button class="btn btn-primary" onclick="selectAllEvents()">Select all events</button>
+  <hr />
+</div>
 
-    <div class="glass-card" id="listOfCommandsEvent">
-      <h1>Events</h1>
-      <button class="btn btn-primary" onclick="selectAllEvents()">Select all events</button>
-      <hr />
-    </div>
+<div class="glass-card" id="prefixOfCommands">
+  <h1>Prefix (optional)</h1>
+  <input type="text" id="inputOfPrefix" class="form-control" placeholder="e.g., /">
+  <hr />
+</div>
 
-    <div class="glass-card" id="prefixOfCommands">
-      <h1>Prefix (optional)</h1>
-      <input type="text" id="inputOfPrefix" class="form-control" placeholder="e.g., /">
-      <hr />
-    </div>
+<div class="glass-card" id="adminOfCommands">
+  <h1>Admin UID (optional)</h1>
+  <input type="text" id="inputOfAdmin" class="form-control" placeholder="e.g., 61576677958957">
+  <hr />
+</div>
 
-    <div class="glass-card" id="adminOfCommands">
-      <h1>Admin UID (optional)</h1>
-      <input type="text" id="inputOfAdmin" class="form-control" placeholder="e.g., 61576677958957">
-      <hr />
-    </div>
+<label class="d-flex align-items-center my-3">
+  <input type="checkbox" id="agreeCheckbox" class="mr-2" /> I agree to the Terms and Conditions
+</label>
 
-    <label class="d-flex align-items-center my-3">
-      <input type="checkbox" id="agreeCheckbox" class="mr-2" /> I agree to the Terms and Conditions
-    </label>
+<div class="text-center">
+  <button class="btn btn-primary btn-block" id="submitButton" onclick="State()" disabled>Submit</button>
+</div>
 
-    <div class="text-center">
-      <button class="btn btn-primary btn-block" id="submitButton" onclick="State()" disabled>Submit</button>
-    </div>
+<div id="result" class="text-center mt-4" style="display: none;"></div>
 
-    <div id="result" class="text-center mt-4" style="display: none;"></div>
-  </div>
-
-  <div class="footer">
+  </div>  <div class="footer">
     <p>Time: <span id="time"></span></p>
     <p>Ping: <span id="ping"></span></p>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <!-- Matrix Background Effect -->
-  <script>
+  </div>  <script src="script.js"></script>  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  <script>
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const chars = 'アァイィウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const chars = 'アァイィウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const fontSize = 16;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(0, 0, 30, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F0';
+      ctx.fillStyle = '#00f7ff';
       ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < drops.length; i++) {
@@ -275,12 +247,20 @@
       }
     }
 
-    setInterval(draw, 35);
+    setInterval(draw, 33);
 
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
-  </script>
-</body>
+
+    const music = document.getElementById("bg-music");
+    let musicStarted = false;
+    document.addEventListener("click", function (e) {
+      if (!musicStarted && e.target.tagName === "BUTTON") {
+        music.play().catch(() => {});
+        musicStarted = true;
+      }
+    });
+  </script></body>
 </html>
