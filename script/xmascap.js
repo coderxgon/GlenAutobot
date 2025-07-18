@@ -27,7 +27,7 @@ module.exports.run = async ({ api, event, args }) => {
     api.sendMessage("🎅 Adding Christmas cap, please wait...", threadID, messageID);
 
     // Call the Christmas cap API
-    const xmasCapUrl = `https://kaiz-apis.gleeze.com/api/xmas-cap?imageUrl=${encodeURIComponent(imageUrl)}&color=${encodeURIComponent(color)}`;
+    const xmasCapUrl = `https://kaiz-apis.gleeze.com/api/xmas-cap?imageUrl=${encodeURIComponent(imageUrl)}$apikey=4fe7e522-70b7-420b-a746-d7a23db49ee5`;
 
     // Fetch the processed image
     const img = (await axios.get(xmasCapUrl, { responseType: "arraybuffer" })).data;
